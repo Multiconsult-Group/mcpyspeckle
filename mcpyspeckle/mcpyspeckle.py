@@ -1,4 +1,13 @@
-"""Module mc_pyspeckle
+"""mcpyspeckle
+
+A collection of functions extending the pyspeckle module. This module
+contains the following functions:
+
+    create_parameter_list
+    create_parameter_objects
+    get_parameter_list
+    login_to_client_with_token_file
+    update_parameter_list
 """
 import speckle
 import speckle.schemas
@@ -6,7 +15,24 @@ import speckle.schemas
 def login_to_client_with_token_file(
     client_url=None, token_file=None
     ):
-    """Function login_to_client_with_token_file
+    """Login to Speckle client with api token read from file.
+
+    Keyword arguments
+    -----------------
+    client_url : str
+        The url to the Speckle client. Defaults to None.
+    
+    token_file : str
+        The name of the file containing the api token. Defaults to
+        None.
+    
+    Returns
+    -------
+    client : speckle.SpeckleClient.SpeckleApiClient
+        The Speckle client.
+    
+    login_status :
+        The login status
     """
     # Check input
     if not client_url:
@@ -30,7 +56,23 @@ def login_to_client_with_token_file(
 def get_parameter_list(
     client=None, stream_id=None
     ):
-    """Function get_parameter_list
+    """Get list of parameters from a stream on a Speckle client.
+
+    Keyword arguments
+    -----------------
+    client : speckle.SpeckleClient.SpeckleApiClient
+        The Speckle client where the stream is located. Defaults to
+        None.
+    
+    stream_id : str
+        The ID of the stream containing the parameter list. Defaults
+        to None.
+    
+    Returns
+    -------
+    parameter_list : dict
+        A dictionary where keys and values are the object names and
+        values found on the stream.
     """
     # Check input and find stream
     if not client:
@@ -55,7 +97,24 @@ def get_parameter_list(
 def create_parameter_objects(
     parameter_list=None
     ):
-    """Function create_parameter_objects
+    """Create relevant Speckle objects based on a parameter list.
+
+    Keyword arguments
+    -----------------
+    parameter_list : dict
+        The dictionary of parameters to create Speckle objects based
+        on. The dictionary key is used for the object name and the
+        value is used to determine the object class. Defaults to None.
+        The following classes are used based on the type of the value:
+
+        str -> SpeckleString
+        int -> SpeckleNumber
+        float -> SpeckleNumber
+    
+    Returns
+    -------
+    new_objects : list
+        A list of newly created objects.
     """
     new_objects = []
 
@@ -78,7 +137,26 @@ def create_parameter_objects(
 def update_parameter_list(
     client=None, stream_id=None, parameter_list=None
     ):
-    """Function update_parameter_list
+    """Update a parameter list in a stream on a Speckle client.
+
+    Keyword arguments
+    -----------------
+    client : speckle.SpeckleClient.SpeckleApiClient
+        The Speckle client where the stream is located. Defaults to
+        None.
+    
+    stream_id : str
+        The ID of the stream containing the parameter list. Defaults
+        to None.
+    
+    parameter_list : dict
+        The dictionary of parameters to update. Only the parameters
+        given in this dictionary are updated on the client. Defaults
+        to None.
+    
+    Returns
+    -------
+    None
     """
     # Check input
     if (not client) or (not stream_id) or (not parameter_list):
@@ -120,7 +198,29 @@ def create_parameter_list(
     client=None, stream_name=None, parameter_list=None,
     force_create_and_delete=False
     ):
-    """Function create_parameter_list
+    """Create a parameter list on a Speckle client.
+
+    Keyword arguments
+    -----------------
+    client : speckle.SpeckleClient.SpeckleApiClient
+        The Speckle client where the stream will be located. Defaults
+        to None.
+    
+    stream_name : str
+        The name of the stream to create. Defaults to None.
+    
+    parameter_list : dict
+        The dictionary of parameters to create. Defaults to None. See
+        also function create_parameter_objects.
+
+    force_create_and_delete : bool
+        If a stream with the given name already exists on the client,
+        delete it and create a new. Defaults to False.
+    
+    Returns
+    -------
+    stream_id : str
+        The ID of the created stream.
     """
     # Check input
     if (not client) or (not stream_name) or (not parameter_list):
