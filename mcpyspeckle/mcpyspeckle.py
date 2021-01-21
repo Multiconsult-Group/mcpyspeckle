@@ -1,7 +1,12 @@
 """mcpyspeckle
 
-A collection of functions extending the pyspeckle module. This module
-contains the following functions:
+A collection of classes and functions extending the pyspeckle module.
+This module contains the following classes:
+
+    Dictionary
+    List
+
+And the following functions:
 
     create_parameter_list
     create_parameter_objects
@@ -11,6 +16,21 @@ contains the following functions:
 """
 import speckle
 import speckle.schemas
+import typing
+
+class Dictionary(speckle.schemas.SpeckleObject):
+    """SpeckleDict class
+    """
+    type: str = 'Dict'
+    name: typing.Optional[str] = 'SpeckleDict'
+    value: dict = {}
+
+class List(speckle.schemas.SpeckleObject):
+    """SpeckleList class
+    """
+    type: str = 'List'
+    name: typing.Optional[str] = 'SpeckleList'
+    value: list = []
 
 def login_to_client_with_token_file(
     client_url=None, token_file=None
